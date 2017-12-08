@@ -12,7 +12,7 @@ void terminate_handler(int sigtype){
         alarm(3);
         sleep(12);
     }
-    if (sigtype == int(SIGALRM)){
+    if (sigtype == int (SIGALRM)){
         printf("[PID=%d] End of work\n", getpid());
         raise(SIGKILL);
     }
