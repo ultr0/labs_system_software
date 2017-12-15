@@ -1,42 +1,72 @@
-#include <unistd.h>
-#include <stdio.h>
-#include <signal.h>
-#include <sys/wait.h>
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
 #include <time.h>
-#include <stdlib.h>
+#include <stdio.h>
 #include <errno.h>
-
-void terminate_handler(int sigtype){
-    if (sigtype == int(SIGUSR1)){
-        printf("[PID=%d]Caught a terminate signal.\n", getpid());
-        alarm(3);
-        sleep(12);
-    }
-    if (sigtype == int(SIGALRM)){
-        printf("[PID=%d] End of work\n", getpid());
-        raise(SIGKILL);
-    }
-}
-
-int main(int argc, char *argv[])
-{
-    int fork_pid = 0;
-    int child_pids[7];
-    for (int i = 0; i < 7; i++){
-        fork_pid = fork();
-        if(fork_pid == 0){
-            terminate_handler(SIGALRM);
-            terminate_handler(SIGUSR1);
-//            sleep(12);
-            return 0;
-        }
-        child_pids[i] = fork_pid;
-    }
+#include <unistd.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <signal.h>
+using namespace std;
+void AA(int c4){
     sleep(3);
-    for (int i = 0; i < 7; i++){
-        kill(child_pids[i], SIGTERM);
-    }
-    while (wait(NULL) > 0){}\
-    printf("End of childs work\n");
-    return 0;
+    cout<<"DEATH FOR THE EMPEROR!!!"<<endl;
+    exit(0);
 }
+
+int main()
+{
+    srand(time(0));
+    int par=getpid();
+    pid_t pid;
+    int CPid=0;
+    int CRan=0;
+    int mx=0;
+    int mxp=0;
+    for(int i=0; i<7; i++){
+        int ran = 3+rand()%10;
+
+        pid=fork();
+
+       if(getpid()!=par)
+           cout<<"Create. Child ID= "<<getpid()<<". Time= "<<ran<<". Parent ID= "<<par<<endl;
+
+       CPid=getpid();
+       CRan=ran;
+
+       if(getpid()!=par) break;
+
+       if(mx<ran){
+           mx=ran;
+           mxp=pid;
+       }
+    }
+
+   if(getpid()!=par) {
+        sleep(CRan);
+        cout<<"Sleep. Child ID= "<<CPid<<". Time= "<<CRan<<". Parent ID= "<<par<<endl;
+    }
+
+
+  if(getpid()!=par) {
+
+      struct sigaction act;
+      act.sa_handler = AA;
+      sigset_t   set;
+      sigemptyset(&set);
+      sigaddset(&set, SIGUSR1);
+      act.sa_mask = set;
+      sigaction(SIGUSR1, &act, 0);
+  }
+
+  waitpid(mxp,0,0);
+
+ if(getpid()!=par) kill(getpid(),SIGUSR1);
+
+ cout<<"Tvoi deti mertvi. Agent 47."<<endl;
+
+    return 0;
+
+}
+
