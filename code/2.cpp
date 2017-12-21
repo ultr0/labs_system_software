@@ -11,11 +11,11 @@
 using namespace std;
 void AA(int c4){
     sleep(3);
-    cout<<"DEATH FOR THE EMPEROR!!!"<<endl;
+    cout<<"Уничтожение процессов"<<endl;
     exit(0);
 }
 
-int main()
+int main2()
 {
     srand(time(0));
     int par=getpid();
@@ -30,7 +30,7 @@ int main()
         pid=fork();
 
        if(getpid()!=par)
-           cout<<"Create. Child ID= "<<getpid()<<". Time= "<<ran<<". Parent ID= "<<par<<endl;
+           cout<<"Создание. Child ID= "<<getpid()<<". Time= "<<ran<<". Parent ID= "<<par<<endl;
 
        CPid=getpid();
        CRan=ran;
@@ -45,12 +45,11 @@ int main()
 
    if(getpid()!=par) {
         sleep(CRan);
-        cout<<"Sleep. Child ID= "<<CPid<<". Time= "<<CRan<<". Parent ID= "<<par<<endl;
+        cout<<"Ожидание. Child ID= "<<CPid<<". Time= "<<CRan<<". Parent ID= "<<par<<endl;
     }
 
 
   if(getpid()!=par) {
-
       struct sigaction act;
       act.sa_handler = AA;
       sigset_t   set;
@@ -59,14 +58,10 @@ int main()
       act.sa_mask = set;
       sigaction(SIGUSR1, &act, 0);
   }
-
-  waitpid(mxp,0,0);
-
- if(getpid()!=par) kill(getpid(),SIGUSR1);
-
- cout<<"Tvoi deti mertvi. Agent 47."<<endl;
-
+ waitpid(mxp,0,0);
+ if(getpid()!=par)
+     kill(getpid(),SIGUSR1);
+     cout<<"Все дочерние процессы завершены."<<endl;
     return 0;
-
 }
 

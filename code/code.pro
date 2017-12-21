@@ -18,4 +18,5 @@ TEMPLATE = app
 SOURCES += \
     2.cpp \
     1.cpp \
-    3.cpp
+    3.cpp \
+    4.cpp
