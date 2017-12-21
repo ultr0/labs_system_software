@@ -10,7 +10,7 @@
 # include <signal.h>
 # include <unistd.h>
 using namespace std;
-int main()
+int main3()
 {
     srand(time(0));
     int par = getpid();

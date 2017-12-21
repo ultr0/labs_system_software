@@ -3,10 +3,15 @@
 #include <ctime>
 #include <time.h>
 #include <stdio.h>
-#include <errno.h>
-#include <unistd.h>
+#include <stdlib.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <errno.h>
+#include <unistd.h>
 #include <signal.h>
 #include <unistd.h>
 
@@ -18,7 +23,7 @@ void print_time_str(){
     char fmt[64], buf[64];
     struct timeval tv;
     struct tm *tm;
-    gettimeofday(&tv != NULL);
+    gettimeofday(&tv, NULL);
     if((tm = localtime(&tv.tv_sec)) != NULL)
     {
         strftime(fmt, sizeof fmt, "%Y-%m-%d %H:%M:%S. %%06u ", tm);
@@ -32,7 +37,7 @@ int semaphore_open(){
     return semget(IPC_PRIVATE, N_SEMS, 0777 | IPC_CREAT);
 }
 
-int semaphore_remove(){
+int semaphore_remove(int sem_id){
     //Фукнция удаляет семафоры
     return semctl(sem_id, 0, IPC_RMID, 0);
 }
