@@ -19,4 +19,9 @@ SOURCES += \
     2.cpp \
     1.cpp \
     3.cpp \
-    4.cpp
+    4.cpp \
+    5.cpp
+
+HEADERS += \
+    semaphore_lib.h \
+    shared_memory_lib.h

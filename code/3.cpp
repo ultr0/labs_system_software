@@ -15,7 +15,7 @@ int main3()
     srand(time(0));
     int par = getpid();
     pid_t pid;
-    char buf[255] = "Данные на входе.";
+    char buf[255] = "Данные для канала данных.";
     char buff[255];
     int fd[2];
     pipe(fd);
@@ -31,16 +31,16 @@ int main3()
     if (getpid() != par)
     {
 //        for(int i=0; i<7; i++){
-        cout << "Create. Child ID= " << getpid() << ". Parent ID= " << par << endl;
+        cout << "Создание дочернего процесса c PID= " << getpid() << ". Родительский PID= " << par << endl;
         // sleep(1);
         read(fd[0], & buff, 50
                 // sizeof(buf)
                 );
-        buff[12]='\n';
+//        buff[12]='\n';
         if (buff != NULL)
             cout << buff << endl;
         else
-            cout << "NIRABOTAET" << endl;
+            cout << "Ошибка." << endl;
         sleep(1);\
 //    }
     }
@@ -48,6 +48,6 @@ int main3()
 
     if (getpid() == par)
 
-        cout << "Ya zakonchil rabotu." << endl;
+        cout << "Завершение работы." << endl;
     return 0;
 }
